@@ -3,13 +3,14 @@ qa_v1_1_logic.js
 qa_v1_2_logic.js
 qa_v1_3_logic.js
 qa_v1_4_logic.js
-qa_v1_5_logic.js
+qa_v2_0_logic.js
 qa_render_fragments.json
 qa_screenshots/
 qa_screenshots_v1_3/
 qa_screenshots_v1_3_extra/
 qa_screenshots_v1_4/
 render_static_snapshots.js
+render_*.js
 render_v1_3_snapshots.js
 render_v14_static.js
 release_validate.py

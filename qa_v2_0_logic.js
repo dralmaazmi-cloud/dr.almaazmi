@@ -1,7 +1,6 @@
-/* QA — v1.5 premium UI layer.
-   Renders every screen this layer replaced and asserts that the structure,
-   the state information the user asked to see, and the existing behaviour
-   (scoring, navigation actions, exports) are all still produced. */
+/* QA — presentation layer v2 (ui.js over the untouched app.js engine).
+   Renders every redesigned screen and asserts that the state information,
+   the engine's actions and scoring, and the content contracts are intact. */
 const fs=require('fs'),vm=require('vm'),path=require('path');
 const ROOT=__dirname,elems=new Map(),local={};
 function fakeEl(id=''){
@@ -17,7 +16,8 @@ const ctx={console,TextDecoder,TextEncoder,Blob,File:globalThis.File||class File
   navigator,window,document,confirm:()=>true,setTimeout:()=>0,clearTimeout(){},fetch:async()=>{throw new Error('fetch disabled')},crypto:globalThis.crypto};
 ctx.globalThis=ctx;ctx.window.window=ctx.window;
 let code=fs.readFileSync(path.join(ROOT,'app.js'),'utf8').replace(/\bboot\(\);/g,'/* boot disabled in QA */');
-code+=`\n;globalThis.__T={state,MODULES,renderHome,renderSimulationHub,renderSimulation,renderSectionPicker,renderSession,renderResult,renderResultsHome,startSession,finishSession,resolveItems,responseStore,storageId,calculateResult,p5ActiveSessions,p5SimStatus,P5_UI,p5Icon,p5BarsHTML,p5StrengthsHTML,p5CrossSimHTML,persist,emptySaved};`;
+code+='\n'+fs.readFileSync(path.join(ROOT,'ui.js'),'utf8');
+code+=`\n;globalThis.__T={state,MODULES,renderHome,renderSimulationHub,renderSimulation,renderSectionPicker,renderSession,renderResult,renderFullRunResult,renderResultsHome,renderTrainingHub,renderTrainingModule,renderGCATTrainingHub,renderOrientationHub,renderReviewHome,renderMistakes,renderFavorites,renderOnboarding,renderAbstract,startSession,finishSession,resolveItems,responseStore,storageId,calculateResult,activeSessions,simStatus,ico,crossSimPanel,openQuestionMap,persist,emptySaved,modelAnswer};`;
 vm.createContext(ctx);vm.runInContext(code,ctx,{filename:'app.js'});
 const T=ctx.__T;
 const read=f=>JSON.parse(fs.readFileSync(path.join(ROOT,'data',f),'utf8'));
@@ -33,40 +33,41 @@ const host=()=>fakeEl('questionHost').innerHTML;
 /* ---- Home ---------------------------------------------------------------- */
 T.renderHome();
 let h=main();
-ok('home renders hero',h.includes('p5-hero'));
-ok('home exposes training entry',h.includes('data-action="training-home"'));
-ok('home exposes simulation entry',h.includes('data-action="simulation-home"'));
-ok('home exposes results/progress entry',h.includes('data-action="results-home"'));
-ok('home exposes smart review entry',h.includes('data-action="review-home"'));
-ok('home exposes orientation entry',h.includes('data-action="orientation-home"'));
-ok('home exposes quick review entry',h.includes('data-action="quick-review"'));
-ok('home has no resume card with clean state',!h.includes('p5-resume'));
-ok('home uses svg icon system',h.includes('<svg class="p5-ico'));
+ok('home renders hero panel',h.includes('hero-panel'));
+for(const a of ['training-home','simulation-home','results-home','review-home','orientation-home','quick-review'])ok(`home exposes ${a}`,h.includes(`data-action="${a}"`));
+ok('home has no resume card with clean state',!h.includes('class="resume"'));
+ok('home uses svg icon system',h.includes('<svg class="ico'));
+ok('home suggests a next step',h.includes('next-step'));
 ok('home keeps the readiness disclaimer',h.includes('ليست درجة سيكومترية'));
+
+/* ---- Onboarding ---------------------------------------------------------- */
+T.renderOnboarding(0);h=main();
+ok('onboarding renders three dots',(h.match(/<span class="(active)?"><\/span>/g)||[]).length===3);
+ok('onboarding can be skipped',h.includes('data-action="finish-onboarding"'));
 
 /* ---- Resume card appears once an attempt is in progress ------------------ */
 T.startSession('M1','gcat','exam',false);
 ok('session started',!!T.state.session&&T.state.session.items.length===42);
 const store=T.responseStore('M1','gcat','exam');
 const items=T.state.session.items;
-store[T.storageId(items[0])]=items[0].data.correct_answer||'A';
-store[T.storageId(items[1])]=items[1].data.correct_answer||'A';
+store[T.storageId(items[0])]=T.modelAnswer(items[0])||'A';
+store[T.storageId(items[1])]=T.modelAnswer(items[1])||'A';
 T.persist();
 const sessionBackup=T.state.session;
 T.state.session=null;
 T.renderHome();h=main();
-ok('home shows resume card for an active attempt',h.includes('p5-resume')&&h.includes('استكمال المحاولة السابقة'));
+ok('home shows resume card for an active attempt',h.includes('class="resume"')&&h.includes('استكمال المحاولة السابقة'));
 ok('resume card targets the saved module',h.includes('data-action="start"')&&h.includes('data-module="gcat"'));
 ok('resume card reports progress',/أنجزت\s*2\s*من\s*42/.test(h));
-ok('active session detected',T.p5ActiveSessions().length===1);
+ok('active session detected',T.activeSessions().length===1);
 
 /* ---- Simulation hub ------------------------------------------------------ */
 T.renderSimulationHub();h=main();
 ok('hub lists all seven simulations',(h.match(/data-action="open-sim"/g)||[]).length===7);
-ok('hub shows a status chip',h.includes('p5-status'));
+ok('hub shows status badges',h.includes('class="badge'));
 ok('hub marks the started simulation as in progress',h.includes('قيد التنفيذ'));
-ok('hub shows item counts',h.includes('262'));
-ok('hub shows completion percentage',h.includes('p5-progress-line'));
+ok('hub shows item totals',h.includes('262'));
+ok('hub shows completion meters',h.includes('class="meter thin"'));
 
 /* ---- Simulation detail --------------------------------------------------- */
 T.renderSimulation('M1');h=main();
@@ -78,82 +79,99 @@ T.renderSectionPicker('M1','exam');h=main();
 ok('picker shows question counts',h.includes('42')&&h.includes('144')&&h.includes('60')&&h.includes('16'));
 ok('picker shows timing',h.includes('20 دقيقة')&&h.includes('45 دقيقة'));
 ok('picker starts every module',(h.match(/data-action="start"/g)||[]).length===4);
-ok('picker shows per-module status',h.includes('p5-status'));
+T.renderSectionPicker('M1','both');h=main();
+ok('picker in both mode offers training and exam per module',(h.match(/data-action="start"/g)||[]).length===8);
+
+/* ---- Training / orientation / review hubs -------------------------------- */
+T.renderTrainingHub();h=main();ok('training hub lists four modules',(h.match(/data-action="training-module"/g)||[]).length===4);
+T.renderTrainingModule('pq10');h=main();ok('training module lists seven simulations',(h.match(/data-action="start"/g)||[]).length===7);
+T.renderTrainingModule('gcat');h=main();ok('gcat training routes to its hub',h.includes('gcat-training-mixed')&&h.includes('gcat-domain-hub'));
+T.renderOrientationHub();h=main();ok('orientation lists three guides',(h.match(/data-action="open-guide"/g)||[]).length===3);
+T.renderReviewHome();h=main();ok('review home links mistakes and favorites',h.includes('mistakes-home')&&h.includes('favorites-home'));
+ok('review home keeps topic training',h.includes('topic-catalog'));
+T.renderMistakes();h=main();ok('mistakes renders',h.includes('دفتر الأخطاء'));
+T.renderFavorites();h=main();ok('favorites renders empty state',h.includes('class="empty"'));
 
 /* ---- Question screen ----------------------------------------------------- */
 T.state.session=sessionBackup;
 T.renderSession();h=main();
-ok('session bar shows the mode',h.includes('p5-mode'));
-ok('session bar shows the position',h.includes('p5-counter'));
+ok('exam bar shows the mode',h.includes('mode-pill exam'));
+ok('exam bar shows the position',h.includes('id="uiPos"'));
 ok('session keeps the timer slot',h.includes('id="timerSlot"'));
 ok('session keeps the question host',h.includes('id="questionHost"'));
-ok('session shows a progress track',h.includes('p5-track'));
-ok('session offers the question map',h.includes('data-action="p5-qnav-toggle"'));
-ok('question map reports answered count',h.includes('>2/42<')||/2\/42/.test(h));
+ok('session shows a progress track',h.includes('exam-track'));
+ok('session offers the question map',h.includes('data-action="ui-map"'));
+ok('map button reports answered count',h.includes('>2/42<'));
 ok('question renders options',host().includes('option-btn'));
 ok('question keeps prev/next navigation',host().includes('data-action="prev"')&&host().includes('data-action="next"'));
+ok('question shows no favorite button in exam mode',!host().includes('toggle-favorite'));
 
-/* ---- Question map panel -------------------------------------------------- */
-T.P5_UI.navOpen=true;T.renderSession();h=main();
-ok('map lists every question',(h.match(/data-action="p5-goto"/g)||[]).length===42);
-ok('map marks the current question',h.includes('p5-qdot current'));
-ok('map marks answered questions',h.includes('p5-qdot answered'));
-ok('map offers finish',h.includes('data-action="p5-finish"'));
-T.P5_UI.navOpen=false;
+/* ---- Abstract contract (engine content, new frame) ------------------------ */
+const abs=items.find(x=>x.kind==='abstract'&&x.data.question_format==='sequence');
+T.state.session.index=items.indexOf(abs);T.renderAbstract(abs);
+let ah=host();
+ok('abstract keeps sequence arrows and missing box',ah.includes('flow-arrow')&&ah.includes('missing-box'));
+ok('abstract keeps the v14 unlabeled contract',ah.includes('v14-abstract')&&ah.includes('unlabeled-options'));
+ok('abstract renders six options',(ah.match(/class="abstract-option /g)||[]).length===6);
+T.state.session.index=0;
 
 /* ---- Scoring is untouched ------------------------------------------------ */
-for(const it of items)store[T.storageId(it)]=it.data.correct_answer||(it.data.options&&it.data.options[0]&&(it.data.options[0].label||'A'))||'A';
+for(const it of items)store[T.storageId(it)]=T.modelAnswer(it)||'A';
 const scored=T.calculateResult('M1','gcat','exam');
 ok('scoring still produces a score',typeof scored.score==='number');
+ok('perfect answers score 100',scored.score===100,String(scored.score));
 ok('scoring still produces domains',!!scored.domains&&Object.keys(scored.domains).length>=3);
 ok('scoring counts all 42 items',scored.total===42);
 
 /* ---- Result screen ------------------------------------------------------- */
 T.state.session=null;
 T.renderResult('M1','gcat',{...scored,mode:'exam',responseScope:'exam'});h=main();
-ok('result shows a score ring',h.includes('p5-ring'));
+ok('result shows a score ring',h.includes('class="ring'));
 ok('result shows correct and incorrect counts',h.includes('إجابات صحيحة')&&h.includes('إجابات خاطئة'));
-ok('result shows per-domain bars',h.includes('p5-bar-row'));
-ok('result shows strengths and gaps',h.includes('نقاط القوة')&&h.includes('يحتاج تحسين'));
+ok('result shows per-domain bars',h.includes('bar-row'));
+ok('result shows strengths and gaps',h.includes('نقاط القوة')&&h.includes('يحتاج تحسينًا'));
 ok('result links to my answers',h.includes('data-action="answers-view"'));
-ok('result links to mistakes only',h.includes('data-action="p5-answers-diff"'));
+ok('result links to mistakes only',h.includes('data-action="ui-answers-diff"'));
 ok('result keeps the export actions',h.includes('data-action="print-report"'));
 ok('result keeps retry and back',h.includes('data-action="restart"')&&h.includes('data-action="open-sim"'));
+ok('result keeps engine diagnostics',h.includes('analysis-panel'));
 
 /* ---- Cross-simulation comparison ---------------------------------------- */
 T.state.saved.results.M1={gcat:{exam:{...scored,mode:'exam',responseScope:'exam'}}};
 T.state.saved.results.M2={gcat:{exam:{...scored,score:55,mode:'exam',responseScope:'exam'}}};
-const cross=T.p5CrossSimHTML('M1','gcat','exam');
-ok('cross-simulation comparison appears with two data points',cross.includes('p5-compare-row')&&cross.includes('M2'));
-ok('single data point produces no comparison',T.p5CrossSimHTML('M1','leadership','exam')==='');
+const cross=T.crossSimPanel('M1','gcat','exam');
+ok('cross-simulation comparison appears with two data points',cross.includes('compare-row')&&cross.includes('M2'));
+ok('single data point produces no comparison',T.crossSimPanel('M1','leadership','exam')==='');
+
+/* ---- Full-run result ----------------------------------------------------- */
+T.state.saved.fullResults.M1={gcat:{...scored}};
+T.renderFullRunResult('M1');h=main();
+ok('full result renders four section stats',(h.match(/class="stat"/g)||[]).length===4);
+ok('full result offers answers and restart',h.includes('answers-full')&&h.includes('restart-full'));
 
 /* ---- Progress dashboard -------------------------------------------------- */
 T.state.saved.history.push({at:new Date().toISOString(),sim:'M1',module:'gcat',mode:'exam',responseScope:'exam',result:scored});
 T.state.saved.history.push({at:new Date(Date.now()-8.64e7).toISOString(),sim:'M2',module:'gcat',mode:'exam',responseScope:'exam',result:{...scored,score:55}});
 T.renderResultsHome('latest','exam');h=main();
-ok('dashboard shows completed simulations',h.includes('محاكاة مكتملة'));
-ok('dashboard shows the average',h.includes('متوسط النتائج'));
-ok('dashboard shows the best result',h.includes('أفضل نتيجة'));
-ok('dashboard shows the last result',h.includes('آخر نتيجة'));
-ok('dashboard shows performance by type',h.includes('متوسط الأداء حسب النوع'));
+for(const l of ['محاكاة مكتملة','متوسط النتائج','أفضل نتيجة','آخر نتيجة','متوسط الأداء حسب النوع'])ok(`dashboard shows ${l}`,h.includes(l));
 ok('dashboard keeps the scope filter',h.includes('data-action="results-scope"'));
 ok('dashboard keeps the view filter',h.includes('data-action="results-view"'));
 ok('dashboard keeps data export and reset',h.includes('data-action="export-data"')&&h.includes('data-action="reset-all"'));
-T.renderResultsHome('trend','exam');h=main();
-ok('trend view draws a sparkline',h.includes('p5-spark'));
-T.renderResultsHome('best','exam');h=main();
-ok('best view highlights the top attempt',h.includes('p5-compare-row current'));
+T.renderResultsHome('trend','exam');h=main();ok('trend view draws a sparkline',h.includes('class="spark"'));
+T.renderResultsHome('best','exam');h=main();ok('best view highlights the top attempt',h.includes('compare-row current'));
 
 /* ---- Likert and leadership screens still render -------------------------- */
 T.startSession('M1','pq10','training',false);T.renderSession();
 ok('pq10 session renders circle scale',host().includes('circle-scale'));
+ok('pq10 training shows favorite button',host().includes('toggle-favorite'));
 T.state.session=null;
 T.startSession('M1','leadership','training',false);T.renderSession();
 ok('leadership session renders the four actions',(host().match(/class="lead-action /g)||[]).length===4);
+ok('leadership training offers submit',host().includes('data-action="submit-lead"'));
 T.state.session=null;
 
 const failed=tests.filter(t=>!t.pass);
 const report={status:failed.length?'FAIL':'PASS',tests:tests.length,failed};
-fs.writeFileSync(path.join(ROOT,'QA_REPORT_V1_5.json'),JSON.stringify(report,null,2));
+fs.writeFileSync(path.join(ROOT,'QA_REPORT_V2_0.json'),JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));
 process.exit(failed.length?1:0);

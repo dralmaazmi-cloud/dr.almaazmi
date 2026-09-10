@@ -1,7 +1,9 @@
-const CACHE='assessment-trainer-v1-5-premium-ui';
+const CACHE='assessment-trainer-v2-0-redesign';
 const ASSETS=[
-  './','index.html','styles.css','app.js','manifest.webmanifest',
-  'icons/icon.svg','icons/icon-192.png','icons/icon-512.png','icons/apple-touch-icon.png',
+  './','index.html','styles.css','app.js','ui.js','manifest.webmanifest',
+  'fonts/plex-arabic-400-arabic.woff2','fonts/plex-arabic-500-arabic.woff2','fonts/plex-arabic-700-arabic.woff2',
+  'fonts/plex-arabic-400-latin.woff2','fonts/plex-arabic-500-latin.woff2','fonts/plex-arabic-700-latin.woff2',
+  'icons/icon.svg','icons/icon-192.png','icons/icon-512.png','icons/icon-512-maskable.png','icons/apple-touch-icon.png',
   'data/assessment_master_v1.json',
   'data/gcat-abstract-100-balanced-7sim.json',
   'data/gcat_numerical_100_selected_7mocks.json',
