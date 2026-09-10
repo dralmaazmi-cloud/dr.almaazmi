@@ -1,0 +1,107 @@
+{
+  "release": "podium365_trainer_app_production_v1",
+  "app_version": "1.0.0",
+  "validated_at_utc": "2026-09-10T07:26:58.972225+00:00",
+  "status": "PASS",
+  "release_decision": "PRODUCTION_READY",
+  "blocking_errors": [],
+  "checks": {
+    "hash_gcat_abstract": true,
+    "hash_gcat_numerical": true,
+    "hash_gcat_verbal": true,
+    "hash_pq10": true,
+    "hash_derailers": true,
+    "hash_leadership": true,
+    "exists_icons/icon-192.png": true,
+    "exists_icons/icon-512.png": true,
+    "exists_icons/apple-touch-icon.png": true,
+    "exists_manifest.webmanifest": true,
+    "exists_sw.js": true,
+    "exists_index.html": true,
+    "exists_styles.css": true,
+    "exists_app.js": true,
+    "production_version": true,
+    "production_cache": true,
+    "mobile_nav": true,
+    "ios_meta": true,
+    "rtl_numeric_guard": true,
+    "arabic_footer": true,
+    "result_interpretation": true,
+    "dynamic_launch_labels": true,
+    "full_run_confirmation": true,
+    "leadership_detailed_feedback": true,
+    "no_cross_section_composite": true,
+    "manifest_arabic": true,
+    "no_visible_Assessment_Trainer": true,
+    "no_visible_Smart_Review": true,
+    "no_visible_RESIT": true,
+    "no_visible_Full_Run": true,
+    "no_visible_Leadership_SJT": true,
+    "commands": {
+      "structure": {
+        "cmd": "python3 validate_app.py",
+        "returncode": 0,
+        "stdout": "PASS: app master structure valid",
+        "stderr": ""
+      },
+      "baseline_regression": {
+        "cmd": "node qa_logic_test.js",
+        "returncode": 0,
+        "stdout": "PASS counts M1-M7\nPASS training/exam isolation\nPASS leadership completion rule\nPASS leadership partial resume\nPASS GCAT resume\nPASS timer persistence\nPASS perfect-score calculations\nPASS result-scope isolation\nPASS full-run summary\nPASS timed-out attempt remains closed\nPASS saved-final-answer auto-finalization\nPASS GCAT Arabic result labels\nPASS perfect-model regression M1-M7 all four modules",
+        "stderr": ""
+      },
+      "features_regression": {
+        "cmd": "node qa_v2_features.js",
+        "returncode": 0,
+        "stdout": "PASS favorites add/remove/retrieve\nPASS mistake capture and resolution\nPASS PQ10 review-item lifecycle\nPASS Leadership response-level review capture\nPASS mistakes-only review session\nPASS topic-training catalog\nPASS weakness detection and filtering\nPASS full-run progress/readiness integration\nPASS timer 10/5/1 alert state\nPASS attempt comparison + RESIT history preservation\nPASS comprehensive report breakdown\nPASS report sharing respects result scope\nPASS full-run RESIT",
+        "stderr": ""
+      },
+      "mobile_contract": {
+        "cmd": "python3 qa_mobile_rc.py",
+        "returncode": 0,
+        "stdout": "PASS mobile 320/360/390/430: no horizontal overflow; touch targets >=44px",
+        "stderr": ""
+      },
+      "js_syntax": {
+        "cmd": "node --check app.js",
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    }
+  },
+  "release_review": {
+    "terminology": "PASS — user-facing terminology unified in Arabic; GCAT and PQ10 retained as product/test acronyms.",
+    "full_run_guidance": "PASS — first start explains section counts, timed sections, autosave and resume.",
+    "state_aware_navigation": "PASS — buttons distinguish start, resume and viewing completed results.",
+    "result_language": "PASS — each module has module-specific interpretation rather than a generic psychometric claim.",
+    "rtl": "PASS — counters/version use LTR isolation within RTL and mobile layout has no horizontal overflow.",
+    "content_policy": "PASS — no question texts, answer keys, app_score values or master bindings changed during release review."
+  },
+  "mobile_qa": {
+    "viewports_px": [
+      320,
+      360,
+      390,
+      430
+    ],
+    "horizontal_overflow": "none",
+    "minimum_touch_target_px": 44,
+    "safe_area_support": true,
+    "bottom_navigation_hidden_during_session": true
+  },
+  "content_integrity": {
+    "source_bank_hashes_verified": true,
+    "master_schema_unchanged": true,
+    "question_content_changed_in_release_review": false,
+    "answer_keys_changed_in_release_review": false,
+    "leadership_app_scores_changed_in_release_review": false
+  },
+  "known_nonblocking_notes": [
+    "The verbal source bank provides explanation and shortcut fields but not structured distractor analysis for every option; Production v1.0 does not invent unsupported distractor explanations.",
+    "PDF export uses browser Print / Save as PDF for Arabic rendering and offline compatibility.",
+    "Training readiness is a workflow/progress indicator, not a psychometric composite score.",
+    "PQ10, Derailers and Leadership are used for training/self-development and are not normed employment-selection instruments.",
+    "The container environment blocks live localhost browser navigation; visual review uses Chromium rendering of representative production markup, while functional behavior is covered by regression tests."
+  ]
+}

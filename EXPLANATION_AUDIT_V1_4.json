@@ -1,0 +1,106 @@
+{
+  "version": "1.4.0",
+  "status": "PASS",
+  "goal_ar": "ضمان أن شرح GCAT العددي والتجريدي في وضع التدريب بسيط، متدرج، ومفهوم خطوة بخطوة.",
+  "numerical": {
+    "active_questions": 98,
+    "structured_explanation_coverage": 98,
+    "fast_method_coverage": 98,
+    "distractor_analysis_coverage": 98,
+    "steps_per_question": {
+      "min": 2,
+      "avg": 3.18,
+      "max": 5
+    },
+    "max_step_characters": 164,
+    "presentation_order": [
+      "الفكرة",
+      "الحل خطوة بخطوة",
+      "الخلاصة",
+      "الطريقة الأسرع",
+      "لماذا كان اختيارك غير مناسب — عند الخطأ"
+    ],
+    "original_explanation_preserved": true
+  },
+  "abstract": {
+    "active_questions": 98,
+    "structured_explanation_coverage": 98,
+    "logical_steps_source_coverage": 98,
+    "distractor_explanation_coverage": 98,
+    "steps_per_question": {
+      "min": 3,
+      "avg": 5.12,
+      "max": 10
+    },
+    "max_step_characters": 158,
+    "presentation_order": [
+      "الفكرة",
+      "ماذا نلاحظ",
+      "الحل خطوة بخطوة",
+      "الخلاصة",
+      "لماذا كان اختيارك غير مناسب — عند الخطأ"
+    ],
+    "original_explanation_preserved": true,
+    "approved_replacements": [
+      {
+        "new_id": "Q001",
+        "replaced": "S3Q21",
+        "difficulty": "متوسط",
+        "format": "odd_one"
+      },
+      {
+        "new_id": "Q003",
+        "replaced": "S1Q42",
+        "difficulty": "صعب",
+        "format": "transformation"
+      },
+      {
+        "new_id": "Q030",
+        "replaced": "S4Q04",
+        "difficulty": "صعب",
+        "format": "matrix"
+      },
+      {
+        "new_id": "Q061",
+        "replaced": "S2Q17",
+        "difficulty": "صعب",
+        "format": "analogy"
+      },
+      {
+        "new_id": "Q152",
+        "replaced": "S4Q18",
+        "difficulty": "صعب",
+        "format": "matrix"
+      }
+    ]
+  },
+  "quality_rules": [
+    "لا تظهر فقرة تقنية طويلة مكان الخطوات التعليمية.",
+    "كل سؤال نشط يحتوي فكرة مختصرة وخطوتين على الأقل وخلاصة.",
+    "كل خطوة في طبقة العرض الجديدة لا تتجاوز 180 حرفًا.",
+    "العددي يحتفظ بالطريقة الأسرع وتحليل المشتتات لجميع الأسئلة النشطة.",
+    "التجريدي يحتفظ بشروحات المشتتات وخطوات المنطق، ويعرضها بصياغة أقصر.",
+    "الشرح الأصلي لا يُحذف؛ طبقة app_explanation_v2 هي طبقة عرض تعليمية فوق المصدر."
+  ],
+  "scope_limit_ar": "هذا تدقيق جودة الشرح والعرض. لا يعني أن جميع الأسئلة التجريدية الـ98 خضعت هنا لتدقيق دلالي مستقل جديد من الصفر؛ الخمسة التي ثبت غموضها سابقًا استبدلت بالخمسة التي اعتمدها المستخدم.",
+  "other_sections_presence_audit": {
+    "pq10": {
+      "items": 1008,
+      "training_explanation_present": 1008,
+      "max_chars": 310
+    },
+    "derailers": {
+      "items": 420,
+      "training_explanation_present": 420,
+      "option_guidance_present": 420,
+      "max_chars": 284
+    },
+    "leadership": {
+      "responses": 448,
+      "training_feedback_present": 448,
+      "full_explanation_present": 448,
+      "max_full_explanation_chars": 456
+    }
+  },
+  "other_sections_note_ar": "PQ10 وDerailers وLeadership كانت تحتوي أصلًا شروحًا كاملة؛ أبقينا محتواها، ويعرض التطبيق الشرح القريب أولًا والتفصيل الإضافي عند الحاجة. إعادة البناء الخطوية الكاملة في v1.4 استهدفت العددي والتجريدي بصورة خاصة كما طلب المستخدم."
+}

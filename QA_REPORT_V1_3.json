@@ -1,0 +1,445 @@
+{
+  "release": "podium365_trainer_app_v1.3_update",
+  "app_version": "1.3.0",
+  "status": "PASS",
+  "release_decision": "RELEASE_CANDIDATE_READY",
+  "blocking_errors": 0,
+  "checks_total": 67,
+  "checks_passed": 67,
+  "failed": [],
+  "checks": [
+    {
+      "name": "JavaScript syntax",
+      "status": "PASS",
+      "detail": "PASS",
+      "blocking": true
+    },
+    {
+      "name": "v1.3 full logic regression",
+      "status": "PASS",
+      "detail": "{\n  \"status\": \"PASS\",\n  \"tests\": 100,\n  \"failed\": []\n}\n",
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: manifest.webmanifest",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/assessment_master_v1.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/gcat-abstract-100-balanced-7sim.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/gcat_numerical_100_selected_7mocks.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/gcat_verbal_100_selected_7mocks.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/personality_pq10_7_simulations_1008_ar_v9_app_ready.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/derailers_7_simulations_420_ar_v6_app_ready.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/leadership_sjt_master_v5_6_app_ready_double_checked.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/guides/gcat-concepts-guide.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/guides/podium-personality-derailers-guide.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/guides/leadership-sjt-orientation-v2.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Assessment Master byte-identical",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank hash matches master: gcat_abstract",
+      "status": "PASS",
+      "detail": "156b41d6919439a63c3f7471ac158d194b59b11285b7d7221452460bbebc90ee",
+      "blocking": true
+    },
+    {
+      "name": "Bank byte-identical to authoritative: gcat_abstract",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank hash matches master: gcat_numerical",
+      "status": "PASS",
+      "detail": "c7c775994caa793d4417a4204f7268db09e8a9ac214835ebb8a95d3e034d4141",
+      "blocking": true
+    },
+    {
+      "name": "Bank byte-identical to authoritative: gcat_numerical",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank hash matches master: gcat_verbal",
+      "status": "PASS",
+      "detail": "c8a5d498ec7490a1f955be8c15147a4aede9b6cf77231d74b34149659fa651c5",
+      "blocking": true
+    },
+    {
+      "name": "Bank byte-identical to authoritative: gcat_verbal",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank hash matches master: pq10",
+      "status": "PASS",
+      "detail": "a4c3d9336b8f7381800c175296f5a57a5e1ab20b36807a822ab94a4930bf7843",
+      "blocking": true
+    },
+    {
+      "name": "Bank byte-identical to authoritative: pq10",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank hash matches master: derailers",
+      "status": "PASS",
+      "detail": "c87cc49eb5cace68c8a45a316ce1597b966da8b090df60afe7a43d4fa24a3194",
+      "blocking": true
+    },
+    {
+      "name": "Bank byte-identical to authoritative: derailers",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank hash matches master: leadership",
+      "status": "PASS",
+      "detail": "9d531e97987e73f7f4e2440207c2e752a2c777ee1f405724b20b53c72ab7ee43",
+      "blocking": true
+    },
+    {
+      "name": "Bank byte-identical to authoritative: leadership",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Canonical M1-M7",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PQ10 1008 explanations",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PQ10 eight competencies",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Derailers 420 explanations/guidance",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Derailers 6 source domains + 8 axes",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership 112/448 with feedback",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership app score 1-5",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership only intended historical score delta",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Abstract 98 active all have LTR direction",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Abstract format coverage",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Matrix frame counts compatible with explicit grid",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "App version 1.3.0",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Global Home + Back",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Previous + Next universal",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Abstract explicit arrows",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Abstract missing box",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Abstract matrix 2x2/3x3",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Abstract relation layout",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "GCAT wrong red/correct green",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "GCAT explicit verdict",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "GCAT domain five-mode hub",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "GCAT all-domain 98 source",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "GCAT exam unchanged 20 minutes",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PQ/Der measure post-answer",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership inline per-action review",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership diagnostic rates",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Confidence engine",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Universal My Answers",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Full-run My Answers",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Readable full report export",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "CSV and JSON answer export",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Share file via native share sheet",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Training disclaimer exact",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Exam clean mode",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Review idea remains postponed",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Service worker assets resolve",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Service worker v1.3 cache",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Icon icon-192.png",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Icon icon-512.png",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Icon apple-touch-icon.png",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Design references bundled",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    }
+  ],
+  "scientific_scope": "تحليلات PQ10 وDerailers وLeadership تدريبية مستنتجة من البنوك المزودة وليست تشخيصًا نفسيًا معياريًا. مستوى الثقة يصف اتساق وكفاية البيانات ولا يعني الصدق أو الكذب.",
+  "postponed_feature": "راجع الفكرة — مؤجل حتى اكتمال تغطية ملفات Orientation.",
+  "final_logic_tests": 100,
+  "http_smoke_test": {
+    "status": "PASS",
+    "checked": [
+      "index.html",
+      "app.js",
+      "styles.css",
+      "manifest.webmanifest",
+      "sw.js",
+      "data/assessment_master_v1.json",
+      "data/gcat-abstract-100-balanced-7sim.json",
+      "data/guides/gcat-concepts-guide.json",
+      "data/guides/leadership-sjt-orientation-v2.json"
+    ],
+    "http_status": "200 for all checked assets"
+  },
+  "visual_qa": {
+    "status": "PASS_WITH_ENVIRONMENT_NOTE",
+    "verified": [
+      "Abstract sequence: explicit LTR direction, numbered frames, arrows, final missing ? box",
+      "Abstract matrix: explicit 2x2 layout with missing ? box",
+      "Four-frame sequence contract verified; responsive CSS includes dedicated frames-4 sizing",
+      "Single 8-frame matrix contract verified as 3x3 with ninth missing cell",
+      "Leadership training: user score, reference score, criterion, why-this-rating, why-not-higher/lower, disclaimer inline under each action",
+      "Leadership results: overall accuracy, exact match, over/under rating, criteria, boundary accuracy, diagnostic weakness and advice",
+      "My Answers: all/differences filters, share, full report, CSV, JSON, PDF/print controls and per-answer explanations"
+    ],
+    "environment_note": "Final static visual snapshots were reviewed. A live Safari/iPhone pixel-level comparison still requires the deployed build because this container cannot reliably run the target mobile Safari rendering engine."
+  }
+}

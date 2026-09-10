@@ -1,0 +1,526 @@
+{
+  "release": "podium365_trainer_app_v1.1_update",
+  "app_version": "1.1.0",
+  "status": "PASS",
+  "release_decision": "RELEASE_CANDIDATE_READY",
+  "blocking_errors": 0,
+  "nonblocking_notes_failed": 0,
+  "checks_total": 78,
+  "checks_passed": 78,
+  "checks": [
+    {
+      "name": "JavaScript syntax",
+      "status": "PASS",
+      "detail": "node --check PASS",
+      "blocking": true
+    },
+    {
+      "name": "v1.1 logic regression",
+      "status": "PASS",
+      "detail": "{\n  \"status\": \"PASS\",\n  \"tests\": 63,\n  \"failed\": []\n}",
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: manifest.webmanifest",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/assessment_master_v1.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/gcat-abstract-100-balanced-7sim.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/gcat_numerical_100_selected_7mocks.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/gcat_verbal_100_selected_7mocks.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/personality_pq10_7_simulations_1008_ar_v9_app_ready.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/derailers_7_simulations_420_ar_v6_app_ready.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/leadership_sjt_master_v5_6_app_ready_double_checked.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/guides/gcat-concepts-guide.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/guides/podium-personality-derailers-guide.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "JSON valid: data/guides/leadership-sjt-orientation-v2.json",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Assessment Master unchanged",
+      "status": "PASS",
+      "detail": "2699eb1af6a1a316b20c4bcf774f47576005ea9caadddeb42362f3c3a0b8b4dd",
+      "blocking": true
+    },
+    {
+      "name": "Bank SHA matches master: gcat_abstract",
+      "status": "PASS",
+      "detail": "156b41d6919439a63c3f7471ac158d194b59b11285b7d7221452460bbebc90ee",
+      "blocking": true
+    },
+    {
+      "name": "Bundled bank byte-identical to authoritative: gcat_abstract",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank SHA matches master: gcat_numerical",
+      "status": "PASS",
+      "detail": "c7c775994caa793d4417a4204f7268db09e8a9ac214835ebb8a95d3e034d4141",
+      "blocking": true
+    },
+    {
+      "name": "Bundled bank byte-identical to authoritative: gcat_numerical",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank SHA matches master: gcat_verbal",
+      "status": "PASS",
+      "detail": "c8a5d498ec7490a1f955be8c15147a4aede9b6cf77231d74b34149659fa651c5",
+      "blocking": true
+    },
+    {
+      "name": "Bundled bank byte-identical to authoritative: gcat_verbal",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank SHA matches master: pq10",
+      "status": "PASS",
+      "detail": "a4c3d9336b8f7381800c175296f5a57a5e1ab20b36807a822ab94a4930bf7843",
+      "blocking": true
+    },
+    {
+      "name": "Bundled bank byte-identical to authoritative: pq10",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank SHA matches master: derailers",
+      "status": "PASS",
+      "detail": "c87cc49eb5cace68c8a45a316ce1597b966da8b090df60afe7a43d4fa24a3194",
+      "blocking": true
+    },
+    {
+      "name": "Bundled bank byte-identical to authoritative: derailers",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Bank SHA matches master: leadership",
+      "status": "PASS",
+      "detail": "9d531e97987e73f7f4e2440207c2e752a2c777ee1f405724b20b53c72ab7ee43",
+      "blocking": true
+    },
+    {
+      "name": "Bundled bank byte-identical to authoritative: leadership",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Master canonical simulations M1-M7",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Per-simulation flow counts 42/144/60/16/64",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PQ10 records 1008",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PQ10 training explanation on every record",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PQ10 eight competencies",
+      "status": "PASS",
+      "detail": [
+        "اتخاذ القرار وتحمل المسؤولية",
+        "التحليل والتخطيط المنهجي",
+        "التفكير الاستراتيجي",
+        "التواصل والتأثير الفعال",
+        "القدرة على التكيف",
+        "القيادة الملهمة",
+        "المبادرة",
+        "تطوير المهارات"
+      ],
+      "blocking": true
+    },
+    {
+      "name": "Derailers records 420",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Derailers training explanation on every record",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Derailers option guidance on every record",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Derailers primary six domains",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Derailers eight analytic axes",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership 112 scenarios",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership 448 independently rated actions",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership app_training on every scenario",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership training_feedback on every action",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership intended final_score/app_score delta only",
+      "status": "PASS",
+      "detail": [
+        "S6-16-د"
+      ],
+      "blocking": true
+    },
+    {
+      "name": "PWA manifest name updated",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PWA standalone display",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PWA RTL Arabic",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "PWA production palette",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Service-worker cache list resolves",
+      "status": "PASS",
+      "detail": {
+        "asset_count": 19,
+        "missing": []
+      },
+      "blocking": true
+    },
+    {
+      "name": "Service-worker includes three orientation guides",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Service-worker cache bumped to v1.1",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Icon dimensions icon-192.png",
+      "status": "PASS",
+      "detail": "(192, 192)",
+      "blocking": true
+    },
+    {
+      "name": "Icon dimensions icon-512.png",
+      "status": "PASS",
+      "detail": "(512, 512)",
+      "blocking": true
+    },
+    {
+      "name": "Icon dimensions apple-touch-icon.png",
+      "status": "PASS",
+      "detail": "(180, 180)",
+      "blocking": true
+    },
+    {
+      "name": "App version 1.1.0",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Red training disclaimer exact wording",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Orientation hub",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Quick review 1-2 minutes",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Smart PWA install",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Five-circle rating UI",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Rating touch targets >=44 CSS hardening",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Measure shown after answer",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership four-option detailed feedback",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Reference-answer terminology for PQ10/Derailers",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Exam clean mode",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Home confirmation during session",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Result filters",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Local data export",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Local data clear",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Three-screen onboarding",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Advanced profile engine",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Confidence high/medium/low",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "No dishonesty accusation",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Leadership diagnostics",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Review-idea link intentionally postponed",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Home icon globally present",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Onboarding contains exactly three slides",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    },
+    {
+      "name": "Eight design-reference mockups bundled",
+      "status": "PASS",
+      "detail": [],
+      "blocking": true
+    },
+    {
+      "name": "Source screenshot examples retained",
+      "status": "PASS",
+      "detail": {
+        "count": 5
+      },
+      "blocking": false
+    },
+    {
+      "name": "No cross-section composite promoted",
+      "status": "PASS",
+      "detail": null,
+      "blocking": false
+    },
+    {
+      "name": "Training scope disclaimer in UI",
+      "status": "PASS",
+      "detail": null,
+      "blocking": true
+    }
+  ],
+  "visual_qa": {
+    "design_reference_set": "bundled",
+    "static_render_snapshots": "qa_screenshots/ (supporting only)",
+    "limitation": "The local environment blocks reliable Chromium localhost visual navigation. Static renders were used as supporting inspection, but they are not pixel-accurate because the renderer lacks parts of modern CSS. Repeat live-browser screenshot comparison after deployment/on a real iPhone and desktop browser.",
+    "blocking": false
+  },
+  "scientific_scope": "PQ10, Derailers, and Leadership outputs are training/self-development interpretations from the supplied keyed banks. The profile/confidence engine is not a normed psychometric diagnosis and does not infer dishonesty.",
+  "postponed_feature": "راجع الفكرة — intentionally not implemented until orientation coverage is complete.",
+  "validated_at_utc": "2026-09-10T10:46:33.259796+00:00",
+  "http_smoke_test": {
+    "status": "PASS",
+    "all_http_200": true,
+    "paths_checked": [
+      "index.html",
+      "app.js",
+      "styles.css",
+      "manifest.webmanifest",
+      "sw.js",
+      "data/assessment_master_v1.json",
+      "data/guides/gcat-concepts-guide.json",
+      "data/guides/podium-personality-derailers-guide.json",
+      "data/guides/leadership-sjt-orientation-v2.json",
+      "icons/icon-192.png"
+    ]
+  },
+  "final_notes": [
+    "All six content banks and assessment_master_v1.json remain byte-identical to their authoritative sources.",
+    "The Review Idea deep-link feature is intentionally postponed until orientation coverage is complete.",
+    "Live browser screenshot comparison remains required after deployment; static rendering in the build environment is supporting evidence only."
+  ]
+}

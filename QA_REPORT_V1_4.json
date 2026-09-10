@@ -1,0 +1,243 @@
+{
+  "version": "1.4.0",
+  "status": "PASS",
+  "release_decision": "RC_READY_FOR_DEVICE_REVIEW",
+  "blocking_errors": 0,
+  "logic_tests": {
+    "status": "PASS",
+    "tests": 46
+  },
+  "release_validation": {
+    "status": "PASS",
+    "checks_passed": 48,
+    "checks_total": 48
+  },
+  "abstract_replacements": [
+    {
+      "new_id": "Q001",
+      "replaced_id": "S3Q21",
+      "final_simulation": "M2",
+      "final_order": 4,
+      "difficulty": "متوسط",
+      "format": "odd_one"
+    },
+    {
+      "new_id": "Q003",
+      "replaced_id": "S1Q42",
+      "final_simulation": "M2",
+      "final_order": 14,
+      "difficulty": "صعب",
+      "format": "transformation"
+    },
+    {
+      "new_id": "Q030",
+      "replaced_id": "S4Q04",
+      "final_simulation": "M7",
+      "final_order": 5,
+      "difficulty": "صعب",
+      "format": "matrix"
+    },
+    {
+      "new_id": "Q061",
+      "replaced_id": "S2Q17",
+      "final_simulation": "M7",
+      "final_order": 7,
+      "difficulty": "صعب",
+      "format": "analogy"
+    },
+    {
+      "new_id": "Q152",
+      "replaced_id": "S4Q18",
+      "final_simulation": "M3",
+      "final_order": 13,
+      "difficulty": "صعب",
+      "format": "matrix"
+    }
+  ],
+  "gcat_balance_audit": {
+    "weighting": "easy=1, medium=2, hard=3",
+    "by_master_simulation": {
+      "M1": {
+        "difficulty_counts": {
+          "متوسط": 8,
+          "صعب": 3,
+          "سهل": 3,
+          "medium": 15,
+          "hard": 6,
+          "easy": 7
+        },
+        "difficulty_index": 83
+      },
+      "M2": {
+        "difficulty_counts": {
+          "متوسط": 9,
+          "صعب": 3,
+          "سهل": 2,
+          "medium": 15,
+          "hard": 6,
+          "easy": 7
+        },
+        "difficulty_index": 84
+      },
+      "M3": {
+        "difficulty_counts": {
+          "سهل": 3,
+          "متوسط": 7,
+          "صعب": 4,
+          "medium": 15,
+          "hard": 6,
+          "easy": 7
+        },
+        "difficulty_index": 84
+      },
+      "M4": {
+        "difficulty_counts": {
+          "متوسط": 8,
+          "صعب": 3,
+          "سهل": 3,
+          "medium": 15,
+          "hard": 6,
+          "easy": 7
+        },
+        "difficulty_index": 83
+      },
+      "M5": {
+        "difficulty_counts": {
+          "صعب": 4,
+          "متوسط": 7,
+          "سهل": 3,
+          "medium": 16,
+          "hard": 5,
+          "easy": 7
+        },
+        "difficulty_index": 83
+      },
+      "M6": {
+        "difficulty_counts": {
+          "سهل": 3,
+          "متوسط": 8,
+          "صعب": 3,
+          "medium": 16,
+          "hard": 5,
+          "easy": 7
+        },
+        "difficulty_index": 82
+      },
+      "M7": {
+        "difficulty_counts": {
+          "صعب": 4,
+          "متوسط": 8,
+          "سهل": 2,
+          "medium": 17,
+          "hard": 4,
+          "easy": 7
+        },
+        "difficulty_index": 83
+      }
+    },
+    "min_index": 82,
+    "max_index": 84,
+    "range": 2,
+    "status": "ACCEPTABLE",
+    "note_ar": "أعيد توازن الصعوبة بعد إدخال البدائل الخمسة عبر ثلاث مبادلات تحافظ على نوع السؤال والقاعدة الأساسية؛ الفرق الأقصى نقطتان فقط على 42 سؤالًا."
+  },
+  "explanation_audit_summary": {
+    "numerical": {
+      "active_questions": 98,
+      "structured_explanation_coverage": 98,
+      "fast_method_coverage": 98,
+      "distractor_analysis_coverage": 98,
+      "steps_per_question": {
+        "min": 2,
+        "avg": 3.18,
+        "max": 5
+      },
+      "max_step_characters": 164,
+      "presentation_order": [
+        "الفكرة",
+        "الحل خطوة بخطوة",
+        "الخلاصة",
+        "الطريقة الأسرع",
+        "لماذا كان اختيارك غير مناسب — عند الخطأ"
+      ],
+      "original_explanation_preserved": true
+    },
+    "abstract": {
+      "active_questions": 98,
+      "structured_explanation_coverage": 98,
+      "logical_steps_source_coverage": 98,
+      "distractor_explanation_coverage": 98,
+      "steps_per_question": {
+        "min": 3,
+        "avg": 5.12,
+        "max": 10
+      },
+      "max_step_characters": 158,
+      "presentation_order": [
+        "الفكرة",
+        "ماذا نلاحظ",
+        "الحل خطوة بخطوة",
+        "الخلاصة",
+        "لماذا كان اختيارك غير مناسب — عند الخطأ"
+      ],
+      "original_explanation_preserved": true,
+      "approved_replacements": [
+        {
+          "new_id": "Q001",
+          "replaced": "S3Q21",
+          "difficulty": "متوسط",
+          "format": "odd_one"
+        },
+        {
+          "new_id": "Q003",
+          "replaced": "S1Q42",
+          "difficulty": "صعب",
+          "format": "transformation"
+        },
+        {
+          "new_id": "Q030",
+          "replaced": "S4Q04",
+          "difficulty": "صعب",
+          "format": "matrix"
+        },
+        {
+          "new_id": "Q061",
+          "replaced": "S2Q17",
+          "difficulty": "صعب",
+          "format": "analogy"
+        },
+        {
+          "new_id": "Q152",
+          "replaced": "S4Q18",
+          "difficulty": "صعب",
+          "format": "matrix"
+        }
+      ]
+    },
+    "other_sections_presence_audit": {
+      "pq10": {
+        "items": 1008,
+        "training_explanation_present": 1008,
+        "max_chars": 310
+      },
+      "derailers": {
+        "items": 420,
+        "training_explanation_present": 420,
+        "option_guidance_present": 420,
+        "max_chars": 284
+      },
+      "leadership": {
+        "responses": 448,
+        "training_feedback_present": 448,
+        "full_explanation_present": 448,
+        "max_full_explanation_chars": 456
+      }
+    }
+  },
+  "visual_qa_artifacts": [
+    "qa_screenshots_v1_4/abstract_sequence.png",
+    "qa_screenshots_v1_4/abstract_analogy_Q061.png",
+    "qa_screenshots_v1_4/numerical_step_by_step.png"
+  ],
+  "important_scope_note": "Static visual QA used the actual v1.4 render functions and CSS through a browser set_content harness. Direct localhost navigation is blocked by the environment administrator, so final iPhone Safari device review remains recommended after deployment."
+}

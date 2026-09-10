@@ -1,0 +1,261 @@
+{
+  "release": "podium365_trainer_app_v1.4_update",
+  "app_version": "1.4.0",
+  "status": "PASS",
+  "release_decision": "RC_READY_FOR_DEVICE_REVIEW",
+  "blocking_errors": 0,
+  "checks_total": 48,
+  "checks_passed": 48,
+  "failed": [],
+  "checks": [
+    {
+      "name": "JavaScript syntax",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "v1.4 logic suite",
+      "status": "PASS",
+      "detail": "{\n  \"status\": \"PASS\",\n  \"tests\": 46,\n  \"failed\": []\n}\n"
+    },
+    {
+      "name": "JSON valid: manifest.webmanifest",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "JSON valid: data/assessment_master_v1.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "JSON valid: data/gcat-abstract-100-balanced-7sim.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "JSON valid: data/gcat_numerical_100_selected_7mocks.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "JSON valid: data/gcat_verbal_100_selected_7mocks.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "JSON valid: data/personality_pq10_7_simulations_1008_ar_v9_app_ready.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "JSON valid: data/derailers_7_simulations_420_ar_v6_app_ready.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "JSON valid: data/leadership_sjt_master_v5_6_app_ready_double_checked.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Master hash: gcat_abstract",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Master hash: gcat_numerical",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Master hash: gcat_verbal",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Master hash: pq10",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Master hash: derailers",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Master hash: leadership",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Unchanged bank byte-identical: gcat_verbal",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Unchanged bank byte-identical: pq10",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Unchanged bank byte-identical: derailers",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Unchanged bank byte-identical: leadership",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Abstract used/reserve 98/2",
+      "status": "PASS",
+      "detail": "98/2"
+    },
+    {
+      "name": "Abstract 14 each",
+      "status": "PASS",
+      "detail": {
+        "M1": 14,
+        "M2": 14,
+        "M5": 14,
+        "M7": 14,
+        "M3": 14,
+        "M4": 14,
+        "M6": 14
+      }
+    },
+    {
+      "name": "Abstract active IDs unique",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Five approved replacements active",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Five ambiguous questions removed",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Replacement requirements",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Replacement source validation preserved",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Master abstract item refs match",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Numerical active count 98",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Numerical explanation layer 98/98",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Numerical fast method 98/98",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Numerical distractor analysis 98/98",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Abstract explanation layer 98/98",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Abstract distractor explanations 98/98",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "No oversized numerical teaching step",
+      "status": "PASS",
+      "detail": "164"
+    },
+    {
+      "name": "No oversized abstract teaching step",
+      "status": "PASS",
+      "detail": "158"
+    },
+    {
+      "name": "Version 1.4.0",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Home + Back globally present",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Abstract frame numbers removed",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Abstract answer labels removed",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Sequence arrows retained",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Analogy two-row relation",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Matrix missing cell",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Step-by-step renderer",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Share short/full labels",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Share failure does not auto-download",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Previous/Next remain universal",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Service worker cache bumped",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "scope_note": "Explanation clarity layer was audited for all 98 active numerical and 98 active abstract items. Original explanations remain preserved. This validation does not claim a new independent psychometric calibration."
+}
