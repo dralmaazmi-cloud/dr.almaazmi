@@ -1,4 +1,4 @@
-const CACHE='assessment-trainer-v2-0-redesign';
+const CACHE='almaazmirevision-v2-1';
 const ASSETS=[
   './','index.html','styles.css','app.js','ui.js','manifest.webmanifest',
   'fonts/plex-arabic-400-arabic.woff2','fonts/plex-arabic-500-arabic.woff2','fonts/plex-arabic-700-arabic.woff2',

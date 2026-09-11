@@ -53,7 +53,8 @@ const UI_ICONS={
   map:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9.4 4v16"/><path d="M14.6 4v16"/><path d="M4 9.4h16"/><path d="M4 14.6h16"/>',
   share:'<path d="M12 4v11"/><path d="m8.2 7.8 3.8-3.8 3.8 3.8"/><path d="M5 12.6v5.2a2.2 2.2 0 0 0 2.2 2.2h9.6a2.2 2.2 0 0 0 2.2-2.2v-5.2"/>',
   layers:'<path d="m12 3 8.6 4.6L12 12.2 3.4 7.6z"/><path d="m3.4 12 8.6 4.6 8.6-4.6"/>',
-  compass:'<circle cx="12" cy="12" r="8.4"/><path d="m15.2 8.8-1.9 4.5-4.5 1.9 1.9-4.5z"/>'
+  compass:'<circle cx="12" cy="12" r="8.4"/><path d="m15.2 8.8-1.9 4.5-4.5 1.9 1.9-4.5z"/>',
+  trash:'<path d="M4.6 6.8h14.8"/><path d="M9.4 6.8V4.9h5.2v1.9"/><path d="M6.5 6.8 7.4 19a1.6 1.6 0 0 0 1.6 1.5h6a1.6 1.6 0 0 0 1.6-1.5l.9-12.2"/><path d="M10.4 10.6v5.8"/><path d="M13.6 10.6v5.8"/>'
 };
 function ico(name,cls=''){
   return `<svg class="ico${cls?' '+cls:''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${UI_ICONS[name]||UI_ICONS.circle}</svg>`;
@@ -87,8 +88,8 @@ function emptyState(icon,title,sub='',action=''){return `<div class="empty">${av
 /* --- 2. Module descriptors ------------------------------------------------ */
 const UI_MODULES={
   gcat:{icon:'spark',tone:'info',count:42,unit:'سؤالًا',examTime:'20 دقيقة',trainTime:'غير موقّت',blurb:'القدرات الإدراكية: عددي ولفظي وتجريدي'},
-  pq10:{icon:'user',tone:'accent',count:144,unit:'بندًا',examTime:'غير موقّت',trainTime:'غير موقّت',blurb:'استبيان الشخصية القيادية'},
-  derailers:{icon:'alert',tone:'warn',count:60,unit:'بندًا',examTime:'غير موقّت',trainTime:'غير موقّت',blurb:'السلوكيات المعطلة تحت الضغط'},
+  pq10:{icon:'user',tone:'accent',count:144,unit:'سؤالًا',examTime:'غير موقّت',trainTime:'غير موقّت',blurb:'استبيان الشخصية القيادية'},
+  derailers:{icon:'alert',tone:'warn',count:60,unit:'سؤالًا',examTime:'غير موقّت',trainTime:'غير موقّت',blurb:'السلوكيات المعطلة تحت الضغط'},
   leadership:{icon:'shield',tone:'good',count:16,unit:'موقفًا',examTime:'45 دقيقة',trainTime:'غير موقّت',blurb:'الحكم على المواقف القيادية'}
 };
 const UI_TOTAL_ITEMS=Object.values(UI_MODULES).reduce((s,m)=>s+m.count,0);
@@ -218,6 +219,23 @@ function uiConfirm({title,text,ok='تأكيد',cancel='إلغاء',danger=false}
     d.showModal();
   });
 }
+/* A dialog with more than two outcomes. Actions are stacked so three of
+   them stay readable on a phone; the destructive one is the only red. */
+function uiChoice({title,text,actions}){
+  if(!uiDialogSupported()){
+    // Two nested confirms keep every outcome reachable without a <dialog>.
+    for(const a of actions.slice(0,-1)){if(confirm(`${title}\n${text}\n\n${a.label}؟`))return Promise.resolve(a.value);}
+    return Promise.resolve(actions[actions.length-1].value);
+  }
+  return new Promise(resolve=>{
+    const d=uiDialogEl();
+    d.innerHTML=`<form method="dialog" class="dialog-panel" role="alertdialog" aria-labelledby="dlgTitle"><h3 id="dlgTitle">${esc(title)}</h3><p>${esc(text)}</p><div class="dialog-actions stack">${actions.map((a,i)=>`<button class="btn ${a.variant||''}" value="${esc(a.value)}" type="submit"${i===0?' autofocus':''}>${esc(a.label)}</button>`).join('')}</div></form>`;
+    const fallback=actions[actions.length-1].value;
+    d.onclose=()=>{const v=d.returnValue;d.returnValue='';resolve(v||fallback);};
+    d.onclick=e=>{if(e.target===d)d.close(fallback);};
+    d.showModal();
+  });
+}
 function uiSheet(title,html,cls='sheet'){
   if(!uiDialogSupported())return null;
   const d=uiDialogEl(cls);
@@ -238,7 +256,7 @@ toast=function(msg){
 let uiBanksLoaded=0;
 function uiSplash(note='جارٍ تجهيز المنصة…',pct=null){
   const main=el('main');if(!main)return;
-  main.innerHTML=`<div class="splash"><span class="brand-mark" aria-hidden="true"></span><h2>منصة التدريب والمحاكاة</h2><p id="splashNote">${esc(note)}</p><div class="meter"><span id="splashBar" style="width:${pct==null?12:pct}%"></span></div></div>`;
+  main.innerHTML=`<div class="splash"><span class="brand-mark" aria-hidden="true"></span><h2>Almaazmirevision</h2><p id="splashNote">${esc(note)}</p><div class="meter"><span id="splashBar" style="width:${pct==null?12:pct}%"></span></div></div>`;
 }
 function uiSplashProgress(){
   const total=Object.keys(state.master?.bank_registry||{}).length||6;
@@ -285,7 +303,7 @@ renderHome=function(){
   const active=activeSessions()[0],step=nextStep();
   el('main').innerHTML=`<div class="home-grid"><div>
   <section class="hero-panel">
-    <div class="eyebrow">منصة التدريب والمحاكاة · الإصدار <bdi dir="ltr">${UI_VERSION}</bdi></div>
+    <div class="eyebrow"><bdi dir="ltr">Almaazmirevision</bdi> · الإصدار <bdi dir="ltr">${UI_VERSION}</bdi></div>
     <h2>تدرّب، اختبر نفسك، وراجع نقاط ضعفك</h2>
     <p>سبع محاكاة كاملة لاختبارات GCAT وPQ10 والسلوكيات المعطلة والحكم القيادي، مع تصحيح وشرح في وضع التدريب وتحليل مفصّل بعد كل محاولة.</p>
     <div class="hero-cta"><button class="btn light" data-action="simulation-home">${ico('simulation')} ابدأ محاكاة</button><button class="btn" data-action="training-home">${ico('training')} تدريب مع شرح</button></div>
@@ -308,6 +326,7 @@ renderHome=function(){
     ${listRow({icon:'bolt',tone:'warn',title:'مراجعة سريعة قبل الامتحان',sub:'أهم النقاط في دقيقة إلى دقيقتين',attrs:'data-action="quick-review"'})}
     ${r.unresolved?listRow({icon:'alert',tone:'bad',title:'دفتر الأخطاء',sub:`${r.unresolved} عنصرًا يحتاج مراجعة`,attrs:'data-action="mistakes-home"'}):''}
     ${isStandalone()?'':listRow({icon:'download',title:'تثبيت التطبيق',sub:isIOS()?'إضافة إلى الشاشة الرئيسية':'تجربة أسرع ووصول مباشر',attrs:'data-action="install-app"'})}
+    ${listRow({icon:'trash',tone:'bad',title:'مسح بياناتي ومحاولاتي',sub:'حذف المحاولات والنتائج والتقدم المحفوظ على هذا الجهاز',attrs:'data-action="reset-all"'})}
   </div>
   <p class="small muted" style="margin-top:16px">«جاهزية التدريب» مؤشر إنجاز ومراجعة داخل التطبيق، وليست درجة سيكومترية أو معيارًا للتوظيف.</p>
   </aside></div>`;
@@ -704,16 +723,59 @@ renderResultsHome=function(view=state.settings.resultView||'latest',scope=state.
   <div class="data-actions"><button class="btn" data-action="export-data">${ico('download')} تصدير بياناتي</button><button class="btn danger" data-action="reset-all">مسح بياناتي</button></div>`;
 };
 
-/* --- 13. Confirmation flows (in-app dialogs replace window.confirm) -------- */
+/* --- 13. Leaving a session ------------------------------------------------- */
 /* The engine bound #homeBtn/#backBtn to its own functions by reference, so
    those listeners are swapped for the dialog-based versions below. */
 const UI_ENGINE_REQUEST_HOME=requestHome,UI_ENGINE_GO_BACK=goBack;
+
+/* Throws away the attempt in progress and nothing else: this scope's answers,
+   its resume entry, and — in leadership training — the "already submitted"
+   markers recorded for it. Finished results, history, the mistakes notebook
+   and favourites are untouched. */
+function discardCurrentAttempt(){
+  const s=state.session;if(!s)return;
+  if(s.isReview){
+    const bank=state.saved.responses?.REVIEW?.[s.module];
+    if(bank)delete bank[s.responseScope];
+  }else{
+    const bank=state.saved.responses?.[s.mid]?.[s.module];
+    if(bank)delete bank[s.responseScope];
+    delete state.saved.sessionMeta[scopeKey(s.mid,s.module,s.responseScope)];
+  }
+  const submissions=state.saved[V13_LEAD_SUBMISSIONS_KEY];
+  if(submissions){
+    const prefix=`${s.mid}|${s.module}|${s.responseScope}|`;
+    for(const k of Object.keys(submissions))if(k.startsWith(prefix))delete submissions[k];
+  }
+  state.session=null;persist();
+}
+/* Every way out of a running attempt goes through here: the top bar, the
+   navigation rail, the tab bar and any in-page exit control. */
+async function leaveSession(){
+  const s=state.session;
+  if(!s)return true;
+  const choice=await uiChoice({
+    title:'الخروج من المحاولة؟',
+    text:'يمكنك حفظ تقدمك والعودة لاحقًا من حيث توقفت، أو تجاهل هذه المحاولة غير المكتملة. نتائجك ومحاولاتك السابقة لن تتأثر.',
+    actions:[
+      {value:'save',label:'حفظ وخروج',variant:'primary'},
+      {value:'discard',label:'عدم الحفظ والخروج',variant:'danger'},
+      {value:'stay',label:'البقاء',variant:'ghost'}
+    ]
+  });
+  if(choice==='stay')return false;
+  if(choice==='save'){persist();state.session=null;toast('تم حفظ التقدم');}
+  else{discardCurrentAttempt();toast('تم تجاهل المحاولة غير المكتملة');}
+  /* The session view can never be restored, so drop it from the back stack. */
+  while(V12_NAV_STACK.length&&V12_NAV_STACK[V12_NAV_STACK.length-1]?.view==='session')V12_NAV_STACK.pop();
+  return true;
+}
 requestHome=async function(){
-  if(state.session){const ok=await uiConfirm({title:'حفظ المحاولة والخروج؟',text:'سيُحفظ تقدمك على هذا الجهاز ويمكنك المتابعة لاحقًا من حيث توقفت.',ok:'حفظ وخروج',cancel:'البقاء'});if(!ok)return;persist();state.session=null;toast('تم حفظ التقدم');}
+  if(!await leaveSession())return;
   renderHome();
 };
 goBack=async function(){
-  if(state.session){const ok=await uiConfirm({title:'حفظ المحاولة والرجوع؟',text:'سيُحفظ تقدمك على هذا الجهاز ويمكنك المتابعة لاحقًا من حيث توقفت.',ok:'حفظ ورجوع',cancel:'البقاء'});if(!ok)return;persist();state.session=null;toast('تم حفظ التقدم');}
+  if(!await leaveSession())return;
   const target=V12_NAV_STACK.pop();if(target)return v12Restore(target);
   const u=state.ui||{};
   if(u.view==='guide')return renderOrientationHub();
@@ -736,7 +798,7 @@ nextItem=async function(){
 };
 startFullRun=async function(mid){
   if(fullRunStatus(mid).started)return startSession(mid,'gcat','exam',true);
-  const ok=await uiConfirm({title:'بدء المحاكاة الشاملة',text:'أربعة أقسام بالتتابع: GCAT (42 سؤالًا، 20 دقيقة)، PQ10 (144 بندًا)، السلوكيات المعطلة (60 بندًا)، ثم الحكم القيادي (16 موقفًا، 45 دقيقة). يُحفظ تقدمك تلقائيًا ويمكنك الخروج والعودة لاحقًا.',ok:'ابدأ المحاكاة',cancel:'ليس الآن'});
+  const ok=await uiConfirm({title:'بدء المحاكاة الشاملة',text:'أربعة أقسام بالتتابع: GCAT (42 سؤالًا، 20 دقيقة)، PQ10 (144 سؤالًا)، السلوكيات المعطلة (60 سؤالًا)، ثم الحكم القيادي (16 موقفًا، 45 دقيقة). يُحفظ تقدمك تلقائيًا ويمكنك الخروج والعودة لاحقًا.',ok:'ابدأ المحاكاة',cancel:'ليس الآن'});
   if(!ok)return;
   return startSession(mid,'gcat','exam',true);
 };
@@ -763,6 +825,30 @@ resetFullRun=async function(mid){
 })();
 
 /* --- 14. Actions owned by this layer ------------------------------------- */
+/* Navigation targets reachable while an attempt is running: the rail stays on
+   screen on tablet and desktop, and the top bar everywhere. Each one asks
+   before abandoning the attempt instead of dropping it silently. */
+const UI_LEAVE_ACTIONS={
+  'home':()=>renderHome(),
+  'exit-session':()=>renderHome(),
+  'simulation-home':()=>renderSimulationHub(),
+  'training-home':()=>renderTrainingHub(),
+  'review-home':()=>renderReviewHome(),
+  'results-home':()=>renderResultsHome(),
+  'orientation-home':()=>renderOrientationHub(),
+  'mistakes-home':()=>renderMistakes(),
+  'favorites-home':()=>renderFavorites(),
+  'quick-review':()=>renderQuickReview()
+};
+function uiLeaveCapture(e){
+  if(!state.session)return;
+  const b=e.target?.closest?.('[data-action]');if(!b)return;
+  const go=UI_LEAVE_ACTIONS[b.dataset.action];if(!go)return;
+  e.stopImmediatePropagation?.();e.preventDefault?.();
+  leaveSession().then(left=>{if(left)go();});
+}
+document.addEventListener('click',uiLeaveCapture,true);
+
 function uiCapture(e){
   const b=e.target?.closest?.('[data-action]');if(!b)return;
   const a=b.dataset.action;
@@ -772,9 +858,33 @@ function uiCapture(e){
   if(a==='ui-goto'){const s=state.session;el('appDialog')?.close?.();if(!s)return;const i=Number(b.dataset.index);if(!Number.isFinite(i)||i<0||i>=s.items.length||i===s.index)return;s.index=i;s.feedbackShown=false;return renderSession();}
   if(a==='ui-finish'){el('appDialog')?.close?.();const s=state.session;if(!s)return;const left=unansweredCount();if(left>0)return uiConfirm({title:s.mode==='exam'?'تسليم الاختبار؟':'إنهاء الجلسة؟',text:`لديك ${left} عنصرًا بلا إجابة. هل تريد الإنهاء الآن؟`,ok:'إنهاء الآن',cancel:'العودة'}).then(ok=>{if(ok)finishSession()});return finishSession();}
   if(a==='ui-answers-diff'){v12PushCurrent();return renderMyAnswers(b.dataset.sim,b.dataset.module,b.dataset.scope||'exam','diff');}
-  if(a==='reset-all'){return uiConfirm({title:'مسح جميع البيانات؟',text:'سيُحذف كل ما هو محفوظ على هذا الجهاز: الإجابات والنتائج والمفضلة ودفتر الأخطاء. لا يمكن التراجع عن هذا الإجراء.',ok:'مسح الكل',cancel:'إلغاء',danger:true}).then(ok=>{if(ok){state.saved=emptySaved();persist();toast('تم مسح البيانات');renderResultsHome();}});}
+  if(a==='reset-all'){
+    const from=state.ui?.view;
+    return uiConfirm({
+      title:'مسح جميع البيانات؟',
+      text:'سيتم حذف جميع المحاولات والنتائج والتقدم المحفوظ على هذا الجهاز. لا يمكن التراجع عن هذا الإجراء.',
+      ok:'مسح البيانات',cancel:'إلغاء',danger:true
+    }).then(ok=>{if(ok)resetAllData(from);});
+  }
 }
 document.addEventListener('click',uiCapture,true);
+
+/* Clears everything tied to this user on this device — attempts in progress,
+   saved results, progress, the mistakes notebook and favourites — while the
+   question banks, the guides and the app preferences (theme, font size) stay
+   in place. Legacy storage keys go too, so nothing can be read back from them
+   on a later launch. */
+function resetAllData(from){
+  state.session=null;
+  state.saved=emptySaved();
+  persist();
+  try{for(const key of LEGACY_STORAGE_KEYS)localStorage.removeItem(key);}catch{}
+  V12_NAV_STACK.length=0;
+  uiViewKey='';
+  toast('تم مسح بياناتك ومحاولاتك بنجاح');
+  if(from==='results')return renderResultsHome('latest',state.settings.resultScope||'exam');
+  return renderHome();
+}
 
 /* --- 15. PWA update notice -------------------------------------------------- */
 if('serviceWorker' in navigator&&navigator.serviceWorker?.addEventListener){

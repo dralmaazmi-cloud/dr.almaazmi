@@ -974,3 +974,12 @@ body.dark .rating-badge{color:#c8daf7}
 .result-actions-card>h3{display:none}
 .dialog-panel:focus{outline:none}
 .answers-export-bar .btn.ghost{border-color:var(--line-strong)}
+
+/* Stacked dialog actions — keeps three outcomes readable on a phone and
+   leaves the destructive one visually distinct without crowding. */
+.dialog-actions.stack{grid-template-columns:1fr;gap:var(--s-2)}
+.dialog-actions.stack .btn{width:100%}
+.dialog-actions.stack .btn.danger{border-color:var(--bad-line)}
+.dialog-actions.stack .btn.ghost{border-color:transparent;color:var(--ink-2)}
+.dialog-actions.stack .btn.ghost:hover{background:var(--surface-3);color:var(--ink)}
+.dialog-panel{padding-bottom:max(var(--s-6),env(safe-area-inset-bottom))}

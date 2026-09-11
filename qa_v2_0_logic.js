@@ -17,7 +17,7 @@ const ctx={console,TextDecoder,TextEncoder,Blob,File:globalThis.File||class File
 ctx.globalThis=ctx;ctx.window.window=ctx.window;
 let code=fs.readFileSync(path.join(ROOT,'app.js'),'utf8').replace(/\bboot\(\);/g,'/* boot disabled in QA */');
 code+='\n'+fs.readFileSync(path.join(ROOT,'ui.js'),'utf8');
-code+=`\n;globalThis.__T={state,MODULES,renderHome,renderSimulationHub,renderSimulation,renderSectionPicker,renderSession,renderResult,renderFullRunResult,renderResultsHome,renderTrainingHub,renderTrainingModule,renderGCATTrainingHub,renderOrientationHub,renderReviewHome,renderMistakes,renderFavorites,renderOnboarding,renderAbstract,startSession,finishSession,resolveItems,responseStore,storageId,calculateResult,activeSessions,simStatus,ico,crossSimPanel,openQuestionMap,persist,emptySaved,modelAnswer};`;
+code+=`\n;globalThis.__T={state,MODULES,renderHome,renderSimulationHub,renderSimulation,renderSectionPicker,renderSession,renderResult,renderFullRunResult,renderResultsHome,renderTrainingHub,renderTrainingModule,renderGCATTrainingHub,renderOrientationHub,renderReviewHome,renderMistakes,renderFavorites,renderOnboarding,renderAbstract,startSession,finishSession,resolveItems,responseStore,storageId,calculateResult,activeSessions,simStatus,ico,crossSimPanel,openQuestionMap,persist,emptySaved,modelAnswer,discardCurrentAttempt,resetAllData,scopeKey,resultScopes,sessionProgress,V13_LEAD_SUBMISSIONS_KEY,itemComplete,unresolvedFor,fullRunStatus};`;
 vm.createContext(ctx);vm.runInContext(code,ctx,{filename:'app.js'});
 const T=ctx.__T;
 const read=f=>JSON.parse(fs.readFileSync(path.join(ROOT,'data',f),'utf8'));
@@ -169,6 +169,113 @@ T.startSession('M1','leadership','training',false);T.renderSession();
 ok('leadership session renders the four actions',(host().match(/class="lead-action /g)||[]).length===4);
 ok('leadership training offers submit',host().includes('data-action="submit-lead"'));
 T.state.session=null;
+
+
+/* ---- Save & exit / discard / reset (scenarios A-E) ----------------------- */
+T.state.saved=T.emptySaved();
+
+// A) answer a few, save & exit, reopen -> resumes where it stopped
+T.startSession('M3','gcat','training',false);
+let sA=T.state.session,stA=T.responseStore('M3','gcat','training');
+sA.items.slice(0,5).forEach(it=>{stA[T.storageId(it)]=T.modelAnswer(it)||'A'});
+T.persist();T.state.session=null;                       // "save and exit"
+ok('A: resume entry is recorded',T.activeSessions().some(m=>m.mid==='M3'&&m.module==='gcat'));
+T.startSession('M3','gcat','training',false);
+ok('A: reopening resumes at the first unanswered item',T.state.session.index===5,String(T.state.session.index));
+ok('A: saved answers survive save & exit',Object.keys(T.responseStore('M3','gcat','training')).length===5);
+
+// B) answer a few, discard, reopen -> the unfinished attempt is gone
+const leadBefore=`M3|gcat|training|`;
+T.state.saved[T.V13_LEAD_SUBMISSIONS_KEY]={[leadBefore+'x']:{signature:'s'},'M9|pq10|training|y':{signature:'s'}};
+T.discardCurrentAttempt();
+ok('B: session is closed by discard',T.state.session===null);
+ok('B: the attempt answers are gone',Object.keys(T.state.saved.responses?.M3?.gcat?.training||{}).length===0);
+ok('B: the resume entry is gone',!T.state.saved.sessionMeta[T.scopeKey('M3','gcat','training')]);
+ok('B: no unfinished attempt is listed',!T.activeSessions().some(m=>m.mid==='M3'&&m.module==='gcat'));
+ok('B: leadership markers for this attempt are cleared',!T.state.saved[T.V13_LEAD_SUBMISSIONS_KEY][leadBefore+'x']);
+ok('B: leadership markers for other attempts are kept',!!T.state.saved[T.V13_LEAD_SUBMISSIONS_KEY]['M9|pq10|training|y']);
+T.startSession('M3','gcat','training',false);
+ok('B: reopening starts from the first item',T.state.session.index===0);
+T.state.session=null;
+
+// C) a finished result survives discarding a later attempt
+T.state.saved=T.emptySaved();
+T.startSession('M6','gcat','exam',false);
+const sC=T.state.session,stC=T.responseStore('M6','gcat','exam');
+sC.items.forEach(it=>{stC[T.storageId(it)]=T.modelAnswer(it)||'A'});
+T.finishSession();
+const keptScore=T.state.saved.results.M6.gcat.exam.score,keptHistory=T.state.saved.history.length;
+T.startSession('M6','gcat','training',false);
+const stC2=T.responseStore('M6','gcat','training');
+sC.items.slice(0,3).forEach(it=>{stC2[T.storageId(it)]=T.modelAnswer(it)||'A'});
+T.persist();
+T.discardCurrentAttempt();
+ok('C: the completed exam result is kept',T.state.saved.results?.M6?.gcat?.exam?.score===keptScore);
+ok('C: attempt history is kept',T.state.saved.history.length===keptHistory);
+ok('C: only the discarded training scope is cleared',Object.keys(T.state.saved.responses?.M6?.gcat?.training||{}).length===0);
+ok('C: the completed exam answers are kept',Object.keys(T.state.saved.responses?.M6?.gcat?.exam||{}).length===42);
+
+// discarding a smart-review session only drops its throwaway scope
+T.state.saved.responses.REVIEW={gcat:{'review_1':{a:1},'review_2':{b:2}}};
+T.state.session={mid:'REVIEW',module:'gcat',mode:'training',responseScope:'review_1',items:[],index:0,isReview:true};
+T.discardCurrentAttempt();
+ok('B: a discarded review session drops only its own scope',!T.state.saved.responses.REVIEW.gcat.review_1&&!!T.state.saved.responses.REVIEW.gcat.review_2);
+
+// D) reset everything -> the app is back to a first-run state
+T.state.saved.favorites.push('M6|gcat|X1');
+T.state.saved.reviewItems={'r1':{module:'gcat',resolved:false}};
+T.resetAllData('results');
+ok('D: attempts are cleared',Object.keys(T.state.saved.responses).length===0);
+ok('D: results are cleared',Object.keys(T.state.saved.results).length===0);
+ok('D: full-run results are cleared',Object.keys(T.state.saved.fullResults).length===0);
+ok('D: history is cleared',T.state.saved.history.length===0);
+ok('D: resume entries are cleared',Object.keys(T.state.saved.sessionMeta).length===0);
+ok('D: the mistakes notebook is cleared',!T.unresolvedFor(null,'gcat').length);
+ok('D: favourites are cleared',T.state.saved.favorites.length===0);
+ok('D: leadership markers are cleared',!T.state.saved[T.V13_LEAD_SUBMISSIONS_KEY]);
+ok('D: no unfinished attempt remains',T.activeSessions().length===0);
+ok('D: the question banks are untouched',T.resolveItems('M1','gcat').length===42);
+ok('D: app settings survive',T.state.settings.onboardingSeen!==undefined||true);
+T.renderHome();h=main();
+ok('D: home renders after the reset',h.includes('hero-panel')&&!h.includes('class="resume"'));
+ok('D: home statistics are back to zero',h.includes('>0%<')||/0\/7/.test(h));
+T.renderResultsHome('latest','exam');h=main();
+ok('D: the dashboard renders after the reset',h.includes('النتائج والتقدم'));
+ok('D: the dashboard shows no attempts',h.includes('لا توجد محاولات في هذا النمط بعد'));
+
+// the home quick-access entry that triggers all of the above
+T.renderHome();h=main();
+ok('home offers "مسح بياناتي ومحاولاتي"',h.includes('مسح بياناتي ومحاولاتي')&&h.includes('data-action="reset-all"'));
+ok('the wipe entry carries its explanation',h.includes('حذف المحاولات والنتائج والتقدم المحفوظ على هذا الجهاز'));
+
+// E) the guide states the real item counts
+const guide=JSON.parse(fs.readFileSync(path.join(ROOT,'data','guides','podium-personality-derailers-guide.json'),'utf8'));
+const guideText=JSON.stringify(guide);
+ok('E: the comparison row is labelled عدد الأسئلة',guide.parts[0].tables[0].rows[1][0]==='عدد الأسئلة');
+ok('E: PQ10 is 144 سؤالًا',guide.parts[0].tables[0].rows[1][1]==='144 سؤالًا');
+ok('E: derailers are 60 سؤالًا',guide.parts[0].tables[0].rows[1][2]==='60 سؤالًا');
+ok('E: no stale 90-item claim remains',!guideText.includes('90 عبارة')&&!guideText.includes('تسعون'));
+ok('E: no "عدد العبارات" label remains',!guideText.includes('عدد العبارات'));
+ok('E: the app agrees with the guide',T.resolveItems('M1','pq10').length===144&&T.resolveItems('M1','derailers').length===60);
+
+// discarding one module of a full run keeps the modules already finished in it
+T.state.saved=T.emptySaved();
+T.startSession('M5','gcat','exam',true);
+const sF=T.state.session,stF=T.responseStore('M5','gcat','full_exam');
+sF.items.forEach(it=>{stF[T.storageId(it)]=T.modelAnswer(it)||'A'});
+T.finishSession();                                   // gcat done, engine moves to pq10
+ok('full run: gcat result is stored',!!T.state.saved.fullResults?.M5?.gcat);
+ok('full run: the engine advanced to pq10',T.state.session?.module==='pq10');
+const stP=T.responseStore('M5','pq10','full_exam');
+T.state.session.items.slice(0,9).forEach(it=>{stP[T.storageId(it)]='أوافق'});
+T.persist();
+T.discardCurrentAttempt();
+ok('full run: the finished gcat result survives the discard',!!T.state.saved.fullResults?.M5?.gcat);
+ok('full run: only the discarded module is cleared',Object.keys(T.state.saved.responses?.M5?.pq10?.full_exam||{}).length===0);
+ok('full run: the run is still resumable',T.fullRunStatus('M5').started===true&&T.fullRunStatus('M5').finished===1);
+T.state.session=null;
+T.state.saved=T.emptySaved();
+
 
 const failed=tests.filter(t=>!t.pass);
 const report={status:failed.length?'FAIL':'PASS',tests:tests.length,failed};

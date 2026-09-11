@@ -1,6 +1,6 @@
 {
-  "name": "منصة التدريب والمحاكاة",
-  "short_name": "منصة التدريب",
+  "name": "Almaazmirevision",
+  "short_name": "Almaazmirevision",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./",
@@ -8,7 +8,7 @@
   "display": "standalone",
   "background_color": "#f3f4f7",
   "theme_color": "#1e3a5f",
-  "description": "منصة عربية للتدريب والمحاكاة على GCAT وPQ10 والسلوكيات المعطلة والحكم القيادي.",
+  "description": "Almaazmirevision — منصة عربية للتدريب والمحاكاة على GCAT وPQ10 والسلوكيات المعطلة والحكم القيادي.",
   "icons": [
     {
       "src": "icons/icon-192.png",
