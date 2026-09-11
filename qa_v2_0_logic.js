@@ -277,6 +277,15 @@ T.state.session=null;
 T.state.saved=T.emptySaved();
 
 
+// the guide carries the product's own name, not another vendor's
+const gRaw=fs.readFileSync(path.join(ROOT,'data','guides','podium-personality-derailers-guide.json'),'utf8');
+const gObj=JSON.parse(gRaw);
+ok('guide title carries the product name',gObj.title.includes('Almaazmirevision')&&!gObj.title.includes('Podium'));
+const visible=JSON.stringify([gObj.title,gObj.parts]);
+ok('no third-party brand in anything the guide renders',!/odium/i.test(visible),visible.match(/.{0,40}odium.{0,40}/i)||'');
+ok('no third-party links remain in the guide',!/podium365\.com/i.test(gRaw));
+
+
 const failed=tests.filter(t=>!t.pass);
 const report={status:failed.length?'FAIL':'PASS',tests:tests.length,failed};
 fs.writeFileSync(path.join(ROOT,'QA_REPORT_V2_0.json'),JSON.stringify(report,null,2));
